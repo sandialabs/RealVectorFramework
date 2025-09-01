@@ -1,15 +1,11 @@
 /**
-TInCuP - A library for generating and validating C++ customization point objects that use `tag_invoke`
+RealVectorFramework - A Generic Library for Vector Operations and Algorithms
 
-Copyright (c) National Technology & Engineering Solutions of Sandia, 
-LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. 
+Copyright (c) National Technology & Engineering Solutions of Sandia,
+LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S.
 Government retains certain rights in this software.
 
 Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
-
-Utilities to uniformly handle values or wrappers by dereferencing when needed.
-`deref_if_needed(x)` returns `*x` if `x` is a pointer, otherwise returns `x` by
-forwarding. The alias `deref_t<T>` is the deduced type after dereferencing.
 */
 
 #pragma once

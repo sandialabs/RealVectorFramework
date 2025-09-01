@@ -1,16 +1,11 @@
 /**
-TInCuP - A library for generating and validating C++ customization point objects that use `tag_invoke`
+RealVectorFramework - A Generic Library for Vector Operations and Algorithms
 
-Copyright (c) National Technology & Engineering Solutions of Sandia, 
-LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. 
+Copyright (c) National Technology & Engineering Solutions of Sandia,
+LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S.
 Government retains certain rights in this software.
 
 Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
-
-Generic `tag_invoke` implementations for RVF CPOs targeting any type that
-models `std::ranges::range`. These live in namespace `rvf` so that ADL finds
-them via the CPO argument type. Projects may override behavior by providing
-more specialized overloads or `tincup::cpo_impl` specializations.
 */
 
 #pragma once
@@ -57,10 +52,14 @@ void tag_invoke(scale_in_place_ftor, R& y, std::ranges::range_value_t<R> alpha) 
 }
 
 // unary_in_place
+template<typename F, typename T>
+concept unary_in_place_invocable = std::convertible_to<
+  std::invoke_result_t<F, T>,
+  T
+>;
+
 template<std::ranges::range R, typename F>
-  requires requires(F f, std::ranges::range_value_t<R> elem) {
-    { f(elem) } -> std::convertible_to<std::ranges::range_value_t<R>>;
-  }
+  requires unary_in_place_invocable<F, std::ranges::range_value_t<R>>
 void tag_invoke(unary_in_place_ftor, R& y, F&& func) {
   std::ranges::for_each(y, [func = std::forward<F>(func)](auto& ye) mutable { 
     ye = func(ye); 
@@ -68,10 +67,14 @@ void tag_invoke(unary_in_place_ftor, R& y, F&& func) {
 }
 
 // binary_in_place
+template<typename F, typename T>
+concept binary_in_place_invocable = std::convertible_to<
+  std::invoke_result_t<F, T, T>,
+  T
+>;
+
 template<std::ranges::range R, typename F>
-  requires requires(F f, std::ranges::range_value_t<R> a, std::ranges::range_value_t<R> b) {
-    { f(a, b) } -> std::convertible_to<std::ranges::range_value_t<R>>;
-  }
+  requires binary_in_place_invocable<F, std::ranges::range_value_t<R>>
 void tag_invoke(binary_in_place_ftor, R& y, const R& x, F&& func) {
   std::ranges::transform(y, x, std::ranges::begin(y), std::forward<F>(func));
 }

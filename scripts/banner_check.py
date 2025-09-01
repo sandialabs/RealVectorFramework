@@ -1,12 +1,4 @@
 #!/usr/bin/env python3
-# TInCuP - A library for generating and validating C++ customization point objects that use `tag_invoke`
-#
-# Copyright (c) National Technology & Engineering Solutions of Sandia,
-# LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S.
-# Government retains certain rights in this software.
-#
-# Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
-
 
 # RealVectorFramework - A Generic Library for Vector Operations and Algorithms
 #
@@ -25,9 +17,9 @@ import fnmatch
 
 # Default banner text embedded from BANNER.txt
 BANNER_TEXT = (
-    "TInCuP - A library for generating and validating C++ customization point objects that use `tag_invoke`\n\n"
-    "Copyright (c) National Technology & Engineering Solutions of Sandia, \n"
-    "LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. \n"
+    "RealVectorFramework - A Generic Library for Vector Operations and Algorithms\n\n"
+    "Copyright (c) National Technology & Engineering Solutions of Sandia,\n"
+    "LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S.\n"
     "Government retains certain rights in this software.\n\n"
     "Questions? Contact Greg von Winckel (gvonwin@sandia.gov)\n"
 )

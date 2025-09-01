@@ -1,4 +1,4 @@
-# TInCuP - A library for generating and validating C++ customization point objects that use `tag_invoke`
+# RealVectorFramework - A Generic Library for Vector Operations and Algorithms
 #
 # Copyright (c) National Technology & Engineering Solutions of Sandia,
 # LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S.
