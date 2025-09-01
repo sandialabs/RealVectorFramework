@@ -19,14 +19,16 @@ namespace rvf {
 //   ALIASES += cpo_example="Example usage of CPO"
 //   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
 /**
- * @brief [TODO: Brief description for inner_product]
+ * @brief Dot product of two vectors
  * @cpo
  * @ingroup tincup_cpos
- * [TODO: Detailed description of the CPO.]
+ * Computes the inner (dot) product of two vectors of the same shape and
+ * compatible value type, returning a real scalar.
  *
  * @cpo_example
  * @code
- * auto result = inner_product( args... );
+ * std::vector<double> x{1,2,3}, y{4,5,6};
+ * auto s = rvf::inner_product(x, y); // s == 1*4 + 2*5 + 3*6
  * @endcode
  */
 

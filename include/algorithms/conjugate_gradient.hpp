@@ -17,6 +17,13 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 namespace rvf {
 
+// Linear operator concept: A(y, x) performs y = A*x and returns void
+template<typename M, typename V>
+concept linear_operator_c = requires(const M& A, V& y, const V& x) {
+  { A(y, x) } -> std::same_as<void>;
+};
+
+
 template<real_vector_c Vec>
 using vector_value_t = inner_product_return_t<Vec>;
 
@@ -27,9 +34,7 @@ using vector_size_t = dimension_return_t<Vec>;
  * @brief Solves the linear system Ax = b using the Conjugate Gradient method.
  */
 template <typename Matrix, real_vector_c Vec>
-requires requires(const Matrix& A, Vec& y, const Vec& x) {
-    { A(y, x) } -> std::same_as<void>; // Matrix must be a callable that performs the multiply.
-}
+requires linear_operator_c<Matrix, Vec>
 void conjugate_gradient(
     const Matrix& A,
     const Vec& b,

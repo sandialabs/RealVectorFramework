@@ -19,7 +19,7 @@ namespace rvf {
 //   ALIASES += cpo_example="Example usage of CPO"
 //   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
 /**
- * @brief Applies a unary function to each element of a vector in-place
+ * @brief Apply a unary function elementwise (in-place)
  * @cpo
  * Applies the given callable object to each element of the target vector,
  * modifying the vector in place. The callable must be able to take an

@@ -10,7 +10,10 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-// Include all operations
+// Aggregate header for all RVF operations/CPOs
+// Include this to access the full set of vector operations.
+// Generic implementations for ranges live in operations/std_ranges_support.hpp.
+// Backend-specific specializations may be provided via tincup::cpo_impl.
 #include "operations/add_in_place.hpp"
 #include "operations/clone.hpp"
 #include "operations/inner_product.hpp"

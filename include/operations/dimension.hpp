@@ -19,14 +19,16 @@ namespace rvf {
 //   ALIASES += cpo_example="Example usage of CPO"
 //   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
 /**
- * @brief [TODO: Brief description for dimension]
+ * @brief Vector size (dimension)
  * @cpo
  * @ingroup tincup_cpos
- * [TODO: Detailed description of the CPO.]
+ * Returns the number of elements (the logical dimension) of a vector-like
+ * object. For ranges, this typically maps to `std::ranges::size`.
  *
  * @cpo_example
  * @code
- * auto result = dimension( args... );
+ * std::vector<double> v{1,2,3};
+ * auto n = rvf::dimension(v); // n == 3
  * @endcode
  */
 

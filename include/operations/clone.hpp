@@ -19,14 +19,17 @@ namespace rvf {
 //   ALIASES += cpo_example="Example usage of CPO"
 //   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
 /**
- * @brief [TODO: Brief description for clone]
+ * @brief Makes a by-value copy of a vector
  * @cpo
  * @ingroup tincup_cpos
- * [TODO: Detailed description of the CPO.]
+ * Returns a copy of the input vector-like object. Implementations may return
+ * a wrapper that dereferences to a vector; use `rvf::deref_if_needed` to
+ * obtain a reference when composing operations.
  *
  * @cpo_example
  * @code
- * auto result = clone( args... );
+ * std::vector<double> x{1,2,3};
+ * auto xc = rvf::clone(x); // copy of x
  * @endcode
  */
 

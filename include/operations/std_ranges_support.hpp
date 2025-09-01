@@ -6,6 +6,11 @@ LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S.
 Government retains certain rights in this software.
 
 Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
+
+Generic `tag_invoke` implementations for RVF CPOs targeting any type that
+models `std::ranges::range`. These live in namespace `rvf` so that ADL finds
+them via the CPO argument type. Projects may override behavior by providing
+more specialized overloads or `tincup::cpo_impl` specializations.
 */
 
 #pragma once

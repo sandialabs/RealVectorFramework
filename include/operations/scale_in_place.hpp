@@ -19,14 +19,16 @@ namespace rvf {
 //   ALIASES += cpo_example="Example usage of CPO"
 //   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
 /**
- * @brief [TODO: Brief description for scale_in_place]
+ * @brief Elementwise x *= alpha (in-place)
  * @cpo
  * @ingroup tincup_cpos
- * [TODO: Detailed description of the CPO.]
+ * Multiplies each element of the target vector by the scalar alpha, modifying
+ * the vector in place. The scalar type should match the vector's value type.
  *
  * @cpo_example
  * @code
- * auto result = scale_in_place( args... );
+ * std::vector<double> v{1,2,3};
+ * rvf::scale_in_place(v, 2.0); // v == {2,4,6}
  * @endcode
  */
 

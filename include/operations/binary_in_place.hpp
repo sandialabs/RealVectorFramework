@@ -19,7 +19,7 @@ namespace rvf {
 //   ALIASES += cpo_example="Example usage of CPO"
 //   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
 /**
- * @brief Applies a binary function to each element pair of two vectors in-place
+ * @brief Apply a binary function elementwise (in-place)
  * @cpo
  * Applies the given callable object to each element of the target vector and the corresponding
  * element of the source vector, modifying the target vector in place. The callable must be able

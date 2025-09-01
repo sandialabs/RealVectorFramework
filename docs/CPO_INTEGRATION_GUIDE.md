@@ -35,6 +35,12 @@ This guide explains two complementary ways to provide implementations for RVF cu
   - Provide a second constrained overload that implements the generic ranges behavior when no trait specialization exists.
   - Result: consumers get optimized implementations automatically where provided, and generic behavior otherwise.
 
+Note: TInCuP exposes detection helpers to write these constraints safely:
+- `tincup::has_cpo_impl_for_c<CPO, Target, Args...>` and
+- `tincup::has_specialized_cpo_impl_c<CPO, Args...>`.
+
+When constraining `tag_invoke` overloads for the same CPO, prefer `has_cpo_impl_for_c` with an explicit target type to avoid recursive constraints.
+
 ### Example: Trait + Shim for std::vector (Illustration)
 
 - See `include/operations/std_cpo_impl.hpp` for a concrete example:
@@ -79,4 +85,3 @@ See TInCuP’s README for detailed flags and templates.
 - Keep the generic, concept-constrained `rvf` `tag_invoke` overloads for broad usability.
 - Layer `tincup::cpo_impl` specializations for backends and optimizations.
 - Prefer the hybrid pattern to get the best of both worlds without changing call sites.
-

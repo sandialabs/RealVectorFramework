@@ -16,6 +16,21 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 namespace rvf {
 
+// Inverse operator concept: A_inv(y, x) computes y = A^{-1} x and returns void
+template<typename F, typename V>
+concept inverse_operator_c = requires(const F& A_inv, V& y, const V& x) {
+  { A_inv(y, x) } -> std::same_as<void>;
+};
+
+// Container of vectors concept for multiple RHS; element type must be Vec
+template<typename Container, typename Vec>
+concept vector_container_of_c = requires(Container& container) {
+  typename Container::value_type;
+  requires std::same_as<typename Container::value_type, Vec>;
+  { container.size() } -> std::convertible_to<std::size_t>;
+  { container[0] } -> std::convertible_to<Vec&>;
+};
+
 /**
  * @brief Solves the linear system (A + u*v^T)x = b using the Sherman-Morrison formula.
  * 
@@ -77,9 +92,7 @@ void sherman_morrison_identity_plus_rank1(
  * @param x solution vector (output)
  */
 template<typename InverseOperator, real_vector_c Vec>
-requires requires(const InverseOperator& A_inv, Vec& y, const Vec& x) {
-    { A_inv(y, x) } -> std::same_as<void>; // A_inv must be callable: A_inv(output, input)
-}
+requires inverse_operator_c<InverseOperator, Vec>
 void sherman_morrison_general(
     const InverseOperator& A_inv,
     const Vec& u,
@@ -133,12 +146,7 @@ void sherman_morrison_general(
  * This is efficient when you need to solve (I + u*v^T)X = B where B has multiple columns.
  */
 template<real_vector_c Vec, typename Container>
-requires requires(Container& container) {
-    typename Container::value_type;
-    std::same_as<typename Container::value_type, Vec>;
-    { container.size() } -> std::convertible_to<std::size_t>;
-    { container[0] } -> std::convertible_to<Vec&>;
-}
+requires vector_container_of_c<Container, Vec>
 void sherman_morrison_multiple_rhs(
     const Vec& u,
     const Vec& v,

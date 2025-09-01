@@ -10,8 +10,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-// Real Vector Framework - Complete header
-// Include this file to get access to all RVF functionality
+// Real Vector Framework - umbrella header
+// Include this to access concepts, operations (CPOs), and algorithms.
 
 #include "real_vector.hpp"    // Core concepts and basic CPOs
 #include "operations.hpp"     // All vector operations

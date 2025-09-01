@@ -12,7 +12,13 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #include <utility> 
 
-// Include all generated CPOs
+// Core concepts and type aliases for vector-like types in RVF.
+//
+// - real_scalar_c<T>: scalar type concept (defaults to std::floating_point, can be overridden)
+// - real_vector_c<V>: vector concept defined in terms of RVF CPOs and their return types
+// - inner_product_return_t<V>, dimension_return_t<V>, clone_return_t<V>: convenience aliases
+//
+// Include the CPO declarations used by the concept definitions below.
 #include "operations/add_in_place.hpp"
 #include "operations/clone.hpp"
 #include "operations/inner_product.hpp"

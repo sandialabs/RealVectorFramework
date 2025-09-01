@@ -19,19 +19,20 @@ namespace rvf {
 //   ALIASES += cpo_example="Example usage of CPO"
 //   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
 /**
- * @brief [TODO: Brief description for add_in_place]
+ * @brief Elementwise y += x (in-place)
  * @cpo
  * @ingroup tincup_cpos
- * [TODO: Detailed description of the CPO.]
+ * Adds each element of the source vector to the corresponding element of the
+ * target vector, writing the result into the target. Implementations may be
+ * provided via ADL `tag_invoke` or `tincup::cpo_impl` specializations.
  *
  * @cpo_example
  * @code
- * auto result = add_in_place( args... );
+ * std::vector<double> x{1,2,3}, y{4,5,6};
+ * rvf::add_in_place(y, x); // y == {5,7,9}
  * @endcode
  */
 
-// LLM_TODO: Adjust expected signature if needed - currently: (T& target, const U& source)
-// LLM_HINT: The operator() calls are inherited from cpo_base via CRTP - no manual implementation needed
 inline constexpr struct add_in_place_ftor final : tincup::cpo_base<add_in_place_ftor> {
   TINCUP_CPO_TAG("add_in_place")
   inline static constexpr bool is_variadic = false;
