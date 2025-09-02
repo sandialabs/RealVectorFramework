@@ -30,9 +30,14 @@ list( APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
 
 
 option( ENABLE_EXAMPLES "Enable Build Examples" ON )
+option( ENABLE_BENCHMARKS "Enable Build Benchmarks with Google Benchmark" OFF )
 
 if( ENABLE_EXAMPLES )
   add_subdirectory(examples)
+endif()
+
+if( ENABLE_BENCHMARKS )
+  add_subdirectory(benchmarks)
 endif()
 
 
@@ -43,6 +48,16 @@ FetchContent_Declare(tincup
   GIT_TAG main  
 )
 FetchContent_MakeAvailable(tincup)
+
+if( ENABLE_BENCHMARKS )
+  FetchContent_Declare(
+    googlebenchmark
+    GIT_REPOSITORY https://github.com/google/benchmark.git
+    GIT_TAG v1.8.3
+  )
+  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Enable testing of the benchmark library" FORCE)
+  FetchContent_MakeAvailable(googlebenchmark)
+endif()
 
 
 option( ENABLE_TESTING "Enable testing with CTest" ON )

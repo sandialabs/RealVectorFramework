@@ -21,3 +21,7 @@ target_link_libraries(hs1_gradient_descent PRIVATE RealVectorFramework::RealVect
 add_executable(hs1_advanced hs1_advanced.cpp)
 
 target_link_libraries(hs1_advanced PRIVATE RealVectorFramework::RealVectorFramework)
+
+add_executable(memory_arena_example memory_arena_example.cpp)
+
+target_link_libraries(memory_arena_example PRIVATE RealVectorFramework::RealVectorFramework)
