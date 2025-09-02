@@ -19,8 +19,6 @@ namespace rvf {
 template<typename T>
 concept nullable_pointer_c = requires(T t) {
   { static_cast<bool>(t) } -> std::convertible_to<bool>;  // contextually convertible to bool
-  { t == nullptr } -> std::convertible_to<bool>;
-  { t != nullptr } -> std::convertible_to<bool>;
   *t;  // must be dereferenceable
 };
 

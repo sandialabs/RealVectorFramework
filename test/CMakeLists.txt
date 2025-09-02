@@ -10,6 +10,8 @@ add_executable(tests
   main.cpp
   clone_by_value_test.cpp
   clone_unique_ptr_test.cpp
+  clone_shared_ptr_test.cpp
+  clone_weak_ptr_negative.cpp
 )
 
 target_link_libraries(tests PRIVATE RealVectorFramework::RealVectorFramework GTest::gtest_main)
