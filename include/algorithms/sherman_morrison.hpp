@@ -53,9 +53,8 @@ void sherman_morrison_identity_plus_rank1(
     
     // For A = I, the solution is: x = b - u*(v^T*b)/(1 + v^T*u)
     
-    // First, copy b to x
-    auto b_clone = clone(b);
-    x = deref_if_needed(b_clone);
+    // First, copy b to x (keep owner and reference adjacent)
+    auto b_clone = clone(b); x = deref_if_needed(b_clone);
     
     // Compute v^T * b
     value_t vtb = inner_product(v, b);
@@ -74,8 +73,7 @@ void sherman_morrison_identity_plus_rank1(
     value_t coeff = -vtb / denominator;
     
     // Create a scaled copy of u
-    auto u_scaled = clone(u);
-    auto& u_scaled_ref = deref_if_needed(u_scaled);
+    auto u_scaled = clone(u); auto& u_scaled_ref = deref_if_needed(u_scaled);
     scale_in_place(u_scaled_ref, coeff);
     
     // x = b + coeff * u (where coeff is negative, so this subtracts)
@@ -103,11 +101,11 @@ void sherman_morrison_general(
     using value_t = inner_product_return_t<Vec>;
     
     // Step 1: Compute A^(-1) * b
-    auto Ainv_b = clone(b);
+    auto b_cl = clone(b); auto& Ainv_b = deref_if_needed(b_cl);
     A_inv(deref_if_needed(Ainv_b), b);
     
     // Step 2: Compute A^(-1) * u
-    auto Ainv_u = clone(u);
+    auto u_cl = clone(u); auto& Ainv_u = deref_if_needed(u_cl);
     A_inv(deref_if_needed(Ainv_u), u);
     
     // Step 3: Compute v^T * A^(-1) * u
@@ -132,7 +130,7 @@ void sherman_morrison_general(
     x = deref_if_needed(Ainv_b);  // Start with A^(-1) * b
     
     // Create scaled A^(-1)*u
-    auto correction = clone(Ainv_u);
+    auto Ainv_u_cl = clone(Ainv_u); auto& correction = deref_if_needed(Ainv_u_cl);
     auto& correction_ref = deref_if_needed(correction);
     scale_in_place(correction_ref, coeff);
     
@@ -161,23 +159,19 @@ void sherman_morrison_multiple_rhs(
     
     if (std::abs(denominator) < std::numeric_limits<value_t>::epsilon()) {
         // Singular case - just copy B to X
-        for (std::size_t i = 0; i < B.size(); ++i) {
-            X[i] = B[i];
-        }
+        for (std::size_t i = 0; i < B.size(); ++i) { X[i] = B[i]; }
         return;
     }
     
     // Solve each system
     for (std::size_t i = 0; i < B.size(); ++i) {
         // x_i = b_i - u * (v^T * b_i) / (1 + v^T * u)
-        auto b_clone = clone(B[i]);
-        X[i] = deref_if_needed(b_clone);
+        auto b_clone = clone(B[i]); X[i] = deref_if_needed(b_clone);
         
         value_t vtb = inner_product(v, B[i]);
         value_t coeff = -vtb / denominator;
         
-        auto u_scaled = clone(u);
-        auto& u_scaled_ref = deref_if_needed(u_scaled);
+        auto u_scaled = clone(u); auto& u_scaled_ref = deref_if_needed(u_scaled);
         scale_in_place(u_scaled_ref, coeff);
         
         add_in_place(X[i], u_scaled_ref);

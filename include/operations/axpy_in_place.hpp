@@ -79,8 +79,7 @@ using axpy_in_place_traits = tincup::cpo_traits<axpy_in_place_ftor, V&, S, const
 template<typename S, typename V>
 constexpr auto tag_invoke(axpy_in_place_ftor, V& y, S alpha, const V& x) -> void {
     // Standard AXPY implementation using existing CPOs
-    auto x_clone = clone(x);
-    auto& alphax = deref_if_needed(x_clone);
+    auto x_clone = clone(x); auto& alphax = deref_if_needed(x_clone);
     scale_in_place(alphax, alpha);
     add_in_place(y, alphax);
 }

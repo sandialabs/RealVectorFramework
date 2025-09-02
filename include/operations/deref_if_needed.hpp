@@ -16,21 +16,24 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
  
 namespace rvf { 
 
+template<typename T>
+concept nullable_pointer_c = requires(T t) {
+  { static_cast<bool>(t) } -> std::convertible_to<bool>;  // contextually convertible to bool
+  { t == nullptr } -> std::convertible_to<bool>;
+  { t != nullptr } -> std::convertible_to<bool>;
+  *t;  // must be dereferenceable
+};
+
+    
+template<typename T>
+  requires nullable_pointer_c<std::remove_reference_t<T>>
+auto deref_if_needed(T&& x) noexcept(noexcept(*std::forward<T>(x)))    
+-> decltype(*std::forward<T>(x)) {    
+  return *std::forward<T>(x);    
+}    
                                                                               
-                                                                                                                      
-template<typename T>                                                                                                  
-concept pointer_c = std::is_pointer_v<std::remove_cvref_t<T>>;                                                      
-                                                                                                                      
-template<typename T>                                                                                                  
-concept non_pointer_c = !std::is_pointer_v<std::remove_cvref_t<T>>;                                                 
-                                                                                                                         
-template<pointer_c T>                                                                                                    
-auto deref_if_needed(T&& x) noexcept(noexcept(*std::forward<T>(x)))                                                    
--> decltype(*std::forward<T>(x)) {                                                                                     
-  return *std::forward<T>(x);                                                                                          
-}                                                                                                                      
-                                                                                                                         
-template<non_pointer_c T>                                                                                                
+template<typename T>
+  requires (!nullable_pointer_c<std::remove_reference_t<T>>)
 auto deref_if_needed(T&& x) noexcept(std::is_nothrow_move_constructible_v<T>)                                          
 -> T&& {                                                                                                               
   return std::forward<T>(x);                                                                                           

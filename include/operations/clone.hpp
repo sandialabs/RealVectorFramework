@@ -10,6 +10,10 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 #include <tincup/tincup.hpp>
+#include <stdexcept>
+#include <type_traits>
+#include <utility>
+#include "deref_if_needed.hpp"
 
 namespace rvf {
 
@@ -25,6 +29,19 @@ namespace rvf {
  * Returns a copy of the input vector-like object. Implementations may return
  * a wrapper that dereferences to a vector; use `rvf::deref_if_needed` to
  * obtain a reference when composing operations.
+ *
+ * Recommended idiom: keep the owner and reference adjacent to avoid
+ * dangling references and to satisfy concept-constrained APIs that
+ * check types before conversions.
+ *
+ * @code
+ * auto cl = rvf::clone(x); auto& xr = rvf::deref_if_needed(cl);
+ * // use xr as a regular vector, cl keeps storage alive
+ * @endcode
+ *
+ * Note: template argument deduction does not consider user-defined
+ * conversions, so passing temporary wrappers to functions constrained
+ * on `real_vector_c` will fail. Always bind a reference via the idiom above.
  *
  * @cpo_example
  * @code

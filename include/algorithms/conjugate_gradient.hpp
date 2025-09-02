@@ -35,44 +35,39 @@ using vector_size_t = dimension_return_t<Vec>;
  */
 template <typename Matrix, real_vector_c Vec>
 requires linear_operator_c<Matrix, Vec>
-void conjugate_gradient(
-    const Matrix& A,
-    const Vec& b,
-    Vec& x,
-    vector_value_t<Vec> relTol = 1e-5,
-    vector_value_t<Vec> absTol = 0,
-    vector_size_t<Vec> maxIter = 100)
-{
-    auto tol = std::max(relTol * std::sqrt(inner_product(b, b)), absTol);
+void conjugate_gradient( const Matrix& A,
+                         const Vec& b,
+                         Vec& x,
+                         vector_value_t<Vec> relTol = 1e-5,
+                         vector_value_t<Vec> absTol = 0,
+                         vector_size_t<Vec> maxIter = 100 ) {
 
-    auto r = clone(b);
-    A(r, x);
-    scale_in_place(r, -1.0);
-    add_in_place(r, b);
+  auto tol = std::max(relTol * std::sqrt(inner_product(b, b)), absTol);
+  auto b_cl = clone(b); auto& r = deref_if_needed(b_cl);
 
-    auto rho0 = inner_product(r, r);
-    if (std::sqrt(rho0) < tol) {
-        return;
-    }
+  A(r, x);
+  scale_in_place(r, -1.0);
+  add_in_place(r, b);
 
-    auto p = clone(r);
-    auto Ap = clone(x);
+  auto rho0 = inner_product(r, r);
+  if(std::sqrt(rho0) < tol) return;
 
-    for (vector_size_t<Vec> iter = 0; iter < maxIter; ++iter) {
-        A(Ap, p);
-        auto pAp = inner_product(Ap, p);
-        auto alpha = rho0 / pAp;
-        axpy_in_place(x, alpha, p);
-        axpy_in_place(r, -alpha, Ap);
-        auto rho = inner_product(r, r);
-        if (std::sqrt(rho) < tol) {
-            break;
-        }
-        auto beta = rho / rho0;
-        scale_in_place(p, beta);
-        add_in_place(p, r);
-        rho0 = rho;
-    }
+  auto r_cl = clone(r); auto& p  = deref_if_needed(r_cl); 
+  auto x_cl = clone(x); auto& Ap = deref_if_needed(x_cl); 
+
+  for(vector_size_t<Vec> iter = 0; iter < maxIter; ++iter) {
+    A(Ap, p);
+    auto pAp = inner_product(Ap, p);
+    auto alpha = rho0 / pAp;
+    axpy_in_place(x,  alpha,  p);
+    axpy_in_place(r, -alpha, Ap);
+    auto rho = inner_product(r, r);
+    if(std::sqrt(rho) < tol) break;
+    auto beta = rho / rho0;
+    scale_in_place(p, beta);
+    add_in_place(p, r);
+    rho0 = rho;
+  }
 }
 
 } // namespace rvf

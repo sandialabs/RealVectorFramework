@@ -73,21 +73,23 @@ vector_value_t<Vec> backtracking_linesearch(
   int neval = 0;
   
   for (int iter = 0; iter < ls_params.max_eval; ++iter) {
-  // Projected gradient step: x_trial = P(x - alpha * grad)
-  x_trial = clone(x);
-  binary_in_place(x_trial, grad, [alpha](auto xi, auto gi) { 
+  // Projected gradient step: x_trial_local = P(x - alpha * grad)
+  auto x_cl = clone(x); auto& x_trial_local = deref_if_needed(x_cl);
+
+  binary_in_place(x_trial_local, grad, [alpha](auto xi, auto gi) { 
     return xi - alpha * gi; 
   });
-  bounds.project(x_trial);
+  bounds.project(x_trial_local);
   
   // Evaluate objective at trial point
-  auto f_trial = obj.value(x_trial);
+  auto f_trial = obj.value(x_trial_local);
   ++neval;
   
   // Armijo sufficient decrease condition
   value_type armijo_rhs = f_x - ls_params.c1 * alpha * grad_dot_grad;
   
   if (f_trial <= armijo_rhs || alpha <= ls_params.alpha_min) {
+    x_trial = std::move(x_trial_local); // write back to output parameter
     return alpha; // Accept step
   }
   
@@ -121,8 +123,8 @@ void gradient_descent_bounds(
   // Project initial point to feasible region
   bounds.project(x);
   
-  auto grad = clone(x);
-  auto x_trial = clone(x);
+  auto x_cl1 = clone(x); auto& grad    = deref_if_needed(x_cl1);
+  auto x_cl2 = clone(x); auto& x_trial = deref_if_needed(x_cl2);
   
   for(vector_size_t<Vec> iter = 0; iter < maxIter; ++iter) {
     // Compute objective and gradient at current point
