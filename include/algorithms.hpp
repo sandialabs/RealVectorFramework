@@ -13,3 +13,4 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 // Include all algorithms
 #include "algorithms/conjugate_gradient.hpp"
 #include "algorithms/sherman_morrison.hpp"
+#include "algorithms/truncated_cg.hpp"

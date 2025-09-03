@@ -10,17 +10,12 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "../real_vector.hpp"
+#include "real_vector.hpp"
 #include <cmath>
 #include <limits>
 
 namespace rvf {
 
-// Inverse operator concept: A_inv(y, x) computes y = A^{-1} x and returns void
-template<typename F, typename V>
-concept inverse_operator_c = requires(const F& A_inv, V& y, const V& x) {
-  { A_inv(y, x) } -> std::same_as<void>;
-};
 
 // Container of vectors concept for multiple RHS; element type must be Vec
 template<typename Container, typename Vec>
@@ -83,14 +78,14 @@ void sherman_morrison_identity_plus_rank1(
 /**
  * @brief General Sherman-Morrison solver for (A + u*v^T)x = b when A^(-1) is known
  * 
- * @param A_inv_mult A function/functor that computes A^(-1) * y for any vector y
+ * @param A_inv A function/functor that computes A^(-1) * y for any vector y (expected to be linear)
  * @param u rank-1 update vector u
  * @param v rank-1 update vector v
  * @param b right-hand side vector
  * @param x solution vector (output)
  */
 template<typename InverseOperator, real_vector_c Vec>
-requires inverse_operator_c<InverseOperator, Vec>
+requires self_map_c<InverseOperator, Vec>
 void sherman_morrison_general(
     const InverseOperator& A_inv,
     const Vec& u,

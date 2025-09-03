@@ -24,4 +24,5 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include "operations/binary_in_place.hpp"
 #include "operations/variadic_in_place.hpp"
 #include "operations/deref_if_needed.hpp"
+#include "operations/self_map.hpp"
 #include "operations/std_ranges_support.hpp"

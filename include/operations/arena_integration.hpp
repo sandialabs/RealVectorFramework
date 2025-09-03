@@ -13,6 +13,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include "memory_arena.hpp"
 #include "arena_observers.hpp"
 #include "clone.hpp"
+#include <tabulate/table.hpp>
+#include <sstream>
 #include <memory>
 #include <utility>
 
@@ -252,26 +254,46 @@ allocation_benchmark_result<V> benchmark_allocation(const V& prototype,
  */
 template<typename V>
 void print_arena_status(const memory_arena<V>& arena, std::ostream& os = std::cout) {
+  using tabulate::Table;
   auto stats = arena.get_statistics();
   auto pool_stats = arena.get_pool_statistics();
-  
-  os << "=== Arena Status ===\n";
-  os << "Uptime: " << std::chrono::duration<double>(stats.uptime()).count() << " seconds\n";
-  os << "Total allocations: " << stats.total_vectors_allocated << "\n";
-  os << "Current in use: " << stats.total_vectors_in_use << "\n";
-  os << "Peak usage: " << stats.peak_memory_usage << "\n";
-  os << "Number of pools: " << stats.total_pools << "\n";
-  
-  os << "\n--- Pool Details ---\n";
+
+  // Summary table
+  Table summary;
+  summary.add_row({"Metric", "Value"});
+  summary.format().font_style({tabulate::FontStyle::bold});
+
+  std::ostringstream uptime_ss;
+  uptime_ss.setf(std::ios::fixed); uptime_ss.precision(3);
+  uptime_ss << std::chrono::duration<double>(stats.uptime()).count();
+
+  summary.add_row({"Uptime (s)", uptime_ss.str()});
+  summary.add_row({"Total allocations", std::to_string(stats.total_vectors_allocated)});
+  summary.add_row({"Current in use", std::to_string(stats.total_vectors_in_use)});
+  summary.add_row({"Peak memory usage", std::to_string(stats.peak_memory_usage)});
+  summary.add_row({"Number of pools", std::to_string(stats.total_pools)});
+
+  os << "Arena Status\n" << summary << "\n";
+
+  // Pool details table
+  Table pools;
+  pools.add_row({"Type", "Dim", "Align", "Available", "Total", "Peak"});
+  pools.format().font_style({tabulate::FontStyle::bold});
+
   for (const auto& pool : pool_stats) {
-    os << "Pool (type=" << pool.key.type_id.name() 
-       << ", dim=" << pool.key.dimension 
-       << ", align=" << pool.key.alignment << "):\n";
-    os << "  Available: " << pool.available_count << "\n";
-    os << "  Total allocated: " << pool.total_allocated << "\n";
-    os << "  Peak size: " << pool.peak_size << "\n";
+    pools.add_row({
+      pool.key.type_id.name(),
+      std::to_string(pool.key.dimension),
+      std::to_string(pool.key.alignment),
+      std::to_string(pool.available_count),
+      std::to_string(pool.total_allocated),
+      std::to_string(pool.peak_size)
+    });
   }
-  os << "==================\n";
+
+  if (!pool_stats.empty()) {
+    os << "Pool Details\n" << pools << "\n";
+  }
 }
 
 } // namespace rvf

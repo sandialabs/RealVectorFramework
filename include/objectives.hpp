@@ -10,11 +10,5 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "real_vector.hpp"
-
-namespace rvf {
-
-// This file is reserved for future variadic in-place operations
-// Currently empty as per the original implementation
-
-} // namespace rvf
+// Include all objective functions
+#include "objectives/zakharov.hpp"

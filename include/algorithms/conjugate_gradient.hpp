@@ -10,18 +10,13 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "../real_vector.hpp"
-#include "../operations/axpy_in_place.hpp"
+#include "real_vector.hpp"
+#include "operations/axpy_in_place.hpp"
 #include <cmath>
 #include <algorithm> // For std::max
 
 namespace rvf {
 
-// Linear operator concept: A(y, x) performs y = A*x and returns void
-template<typename M, typename V>
-concept linear_operator_c = requires(const M& A, V& y, const V& x) {
-  { A(y, x) } -> std::same_as<void>;
-};
 
 
 template<real_vector_c Vec>
@@ -32,9 +27,11 @@ using vector_size_t = dimension_return_t<Vec>;
 
 /**
  * @brief Solves the linear system Ax = b using the Conjugate Gradient method.
+ * 
+ * @param A Linear operator (expected to be symmetric positive definite)
  */
 template <typename Matrix, real_vector_c Vec>
-requires linear_operator_c<Matrix, Vec>
+requires self_map_c<Matrix, Vec>
 void conjugate_gradient( const Matrix& A,
                          const Vec& b,
                          Vec& x,

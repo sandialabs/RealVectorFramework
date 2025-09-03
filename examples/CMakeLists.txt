@@ -25,3 +25,7 @@ target_link_libraries(hs1_advanced PRIVATE RealVectorFramework::RealVectorFramew
 add_executable(memory_arena_example memory_arena_example.cpp)
 
 target_link_libraries(memory_arena_example PRIVATE RealVectorFramework::RealVectorFramework)
+
+add_executable(zakharov_example zakharov_example.cpp)
+
+target_link_libraries(zakharov_example PRIVATE RealVectorFramework::RealVectorFramework tabulate::tabulate)

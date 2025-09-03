@@ -49,6 +49,12 @@ FetchContent_Declare(tincup
 )
 FetchContent_MakeAvailable(tincup)
 
+FetchContent_Declare(tabulate
+  GIT_REPOSITORY https://github.com/p-ranav/tabulate.git
+  GIT_TAG v1.5
+)
+FetchContent_MakeAvailable(tabulate)
+
 if( ENABLE_BENCHMARKS )
   FetchContent_Declare(
     googlebenchmark
@@ -69,7 +75,7 @@ add_library(RealVectorFramework::RealVectorFramework ALIAS RealVectorFramework)
 
 target_include_directories(RealVectorFramework INTERFACE include)
 
-target_link_libraries(RealVectorFramework INTERFACE tincup::tincup)
+target_link_libraries(RealVectorFramework INTERFACE tincup::tincup tabulate::tabulate)
 
 if( ENABLE_TESTING)
   set(GOOGLETEST_VERSION v1.14.0)

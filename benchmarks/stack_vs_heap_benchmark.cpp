@@ -19,28 +19,28 @@ using namespace rvf;
 template<std::size_t N>
 class StackVector {
 private:
-    std::array<double, N> data_;
-    
+  std::array<double, N> data_;
+  
 public:
-    constexpr StackVector() : data_{} {}
-    explicit constexpr StackVector(double fill_value) {
-        data_.fill(fill_value);
-    }
-    StackVector(const StackVector&) = default;
-    StackVector(StackVector&&) = default;
-    StackVector& operator=(const StackVector&) = default;
-    StackVector& operator=(StackVector&&) = default;
-    
-    constexpr std::size_t size() const { return N; }
-    double& operator[](std::size_t i) { return data_[i]; }
-    const double& operator[](std::size_t i) const { return data_[i]; }
-    
-    auto begin() { return data_.begin(); }
-    auto end() { return data_.end(); }
-    auto begin() const { return data_.begin(); }
-    auto end() const { return data_.end(); }
-    
-    constexpr static std::size_t static_size() { return N; }
+  constexpr StackVector() : data_{} {}
+  explicit constexpr StackVector(double fill_value) {
+    data_.fill(fill_value);
+  }
+  StackVector(const StackVector&) = default;
+  StackVector(StackVector&&) = default;
+  StackVector& operator=(const StackVector&) = default;
+  StackVector& operator=(StackVector&&) = default;
+  
+  constexpr std::size_t size() const { return N; }
+  double& operator[](std::size_t i) { return data_[i]; }
+  const double& operator[](std::size_t i) const { return data_[i]; }
+  
+  auto begin() { return data_.begin(); }
+  auto end() { return data_.end(); }
+  auto begin() const { return data_.begin(); }
+  auto end() const { return data_.end(); }
+  
+  constexpr static std::size_t static_size() { return N; }
 };
 
 //=============================================================================
@@ -49,35 +49,35 @@ public:
 
 template<std::size_t N>
 StackVector<N> tag_invoke(clone_ftor, const StackVector<N>& v) {
-    return StackVector<N>(v);
+  return StackVector<N>(v);
 }
 
 template<std::size_t N>
 std::size_t tag_invoke(dimension_ftor, const StackVector<N>& v) {
-    return N;
+  return N;
 }
 
 template<std::size_t N>
 void tag_invoke(add_in_place_ftor, StackVector<N>& x, const StackVector<N>& y) {
-    for (std::size_t i = 0; i < N; ++i) {
-        x[i] += y[i];
-    }
+  for (std::size_t i = 0; i < N; ++i) {
+    x[i] += y[i];
+  }
 }
 
 template<std::size_t N>
 void tag_invoke(scale_in_place_ftor, StackVector<N>& x, double alpha) {
-    for (auto& val : x) {
-        val *= alpha;
-    }
+  for (auto& val : x) {
+    val *= alpha;
+  }
 }
 
 template<std::size_t N>
 double tag_invoke(inner_product_ftor, const StackVector<N>& x, const StackVector<N>& y) {
-    double result = 0.0;
-    for (std::size_t i = 0; i < N; ++i) {
-        result += x[i] * y[i];
-    }
-    return result;
+  double result = 0.0;
+  for (std::size_t i = 0; i < N; ++i) {
+    result += x[i] * y[i];
+  }
+  return result;
 }
 
 //=============================================================================
@@ -86,23 +86,23 @@ double tag_invoke(inner_product_ftor, const StackVector<N>& x, const StackVector
 
 class HeapVector {
 private:
-    std::vector<double> data_;
-    
+  std::vector<double> data_;
+  
 public:
-    explicit HeapVector(std::size_t size) : data_(size, 0.0) {}
-    HeapVector(const HeapVector&) = default;
-    HeapVector(HeapVector&&) = default;
-    HeapVector& operator=(const HeapVector&) = default;
-    HeapVector& operator=(HeapVector&&) = default;
-    
-    std::size_t size() const { return data_.size(); }
-    double& operator[](std::size_t i) { return data_[i]; }
-    const double& operator[](std::size_t i) const { return data_[i]; }
-    
-    auto begin() { return data_.begin(); }
-    auto end() { return data_.end(); }
-    auto begin() const { return data_.begin(); }
-    auto end() const { return data_.end(); }
+  explicit HeapVector(std::size_t size) : data_(size, 0.0) {}
+  HeapVector(const HeapVector&) = default;
+  HeapVector(HeapVector&&) = default;
+  HeapVector& operator=(const HeapVector&) = default;
+  HeapVector& operator=(HeapVector&&) = default;
+  
+  std::size_t size() const { return data_.size(); }
+  double& operator[](std::size_t i) { return data_[i]; }
+  const double& operator[](std::size_t i) const { return data_[i]; }
+  
+  auto begin() { return data_.begin(); }
+  auto end() { return data_.end(); }
+  auto begin() const { return data_.begin(); }
+  auto end() const { return data_.end(); }
 };
 
 //=============================================================================
@@ -110,31 +110,31 @@ public:
 //=============================================================================
 
 HeapVector tag_invoke(clone_ftor, const HeapVector& v) {
-    return HeapVector(v);
+  return HeapVector(v);
 }
 
 std::size_t tag_invoke(dimension_ftor, const HeapVector& v) {
-    return v.size();
+  return v.size();
 }
 
 void tag_invoke(add_in_place_ftor, HeapVector& x, const HeapVector& y) {
-    for (std::size_t i = 0; i < x.size() && i < y.size(); ++i) {
-        x[i] += y[i];
-    }
+  for (std::size_t i = 0; i < x.size() && i < y.size(); ++i) {
+    x[i] += y[i];
+  }
 }
 
 void tag_invoke(scale_in_place_ftor, HeapVector& x, double alpha) {
-    for (auto& val : x) {
-        val *= alpha;
-    }
+  for (auto& val : x) {
+    val *= alpha;
+  }
 }
 
 double tag_invoke(inner_product_ftor, const HeapVector& x, const HeapVector& y) {
-    double result = 0.0;
-    for (std::size_t i = 0; i < x.size() && i < y.size(); ++i) {
-        result += x[i] * y[i];
-    }
-    return result;
+  double result = 0.0;
+  for (std::size_t i = 0; i < x.size() && i < y.size(); ++i) {
+    result += x[i] * y[i];
+  }
+  return result;
 }
 
 //=============================================================================
@@ -144,73 +144,73 @@ double tag_invoke(inner_product_ftor, const HeapVector& x, const HeapVector& y) 
 template<std::size_t N, std::size_t PoolSize = 10>
 class StackVectorWorkspace {
 private:
-    std::array<StackVector<N>, PoolSize> workspace_;
-    std::array<bool, PoolSize> in_use_;
-    
+  std::array<StackVector<N>, PoolSize> workspace_;
+  std::array<bool, PoolSize> in_use_;
+  
 public:
-    StackVectorWorkspace() : in_use_{} {}
+  StackVectorWorkspace() : in_use_{} {}
+  
+  class WorkspaceVector {
+  private:
+    StackVectorWorkspace* workspace_;
+    std::size_t index_;
     
-    class WorkspaceVector {
-    private:
-        StackVectorWorkspace* workspace_;
-        std::size_t index_;
-        
-    public:
-        WorkspaceVector(StackVectorWorkspace* ws, std::size_t idx) 
-            : workspace_(ws), index_(idx) {}
-        
-        ~WorkspaceVector() {
-            if (workspace_) {
-                workspace_->release(index_);
-            }
-        }
-        
-        // Move-only semantics
-        WorkspaceVector(const WorkspaceVector&) = delete;
-        WorkspaceVector& operator=(const WorkspaceVector&) = delete;
-        
-        WorkspaceVector(WorkspaceVector&& other) noexcept 
-            : workspace_(other.workspace_), index_(other.index_) {
-            other.workspace_ = nullptr;
-        }
-        
-        WorkspaceVector& operator=(WorkspaceVector&& other) noexcept {
-            if (this != &other) {
-                if (workspace_) {
-                    workspace_->release(index_);
-                }
-                workspace_ = other.workspace_;
-                index_ = other.index_;
-                other.workspace_ = nullptr;
-            }
-            return *this;
-        }
-        
-        StackVector<N>& operator*() { return workspace_->workspace_[index_]; }
-        const StackVector<N>& operator*() const { return workspace_->workspace_[index_]; }
-        
-        StackVector<N>* operator->() { return &workspace_->workspace_[index_]; }
-        const StackVector<N>* operator->() const { return &workspace_->workspace_[index_]; }
-    };
+  public:
+    WorkspaceVector(StackVectorWorkspace* ws, std::size_t idx) 
+      : workspace_(ws), index_(idx) {}
     
-    std::optional<WorkspaceVector> acquire() {
-        for (std::size_t i = 0; i < PoolSize; ++i) {
-            if (!in_use_[i]) {
-                in_use_[i] = true;
-                return WorkspaceVector(this, i);
-            }
-        }
-        return std::nullopt;  // No available workspace
+    ~WorkspaceVector() {
+      if (workspace_) {
+        workspace_->release(index_);
+      }
     }
     
+    // Move-only semantics
+    WorkspaceVector(const WorkspaceVector&) = delete;
+    WorkspaceVector& operator=(const WorkspaceVector&) = delete;
+    
+    WorkspaceVector(WorkspaceVector&& other) noexcept 
+      : workspace_(other.workspace_), index_(other.index_) {
+      other.workspace_ = nullptr;
+    }
+    
+    WorkspaceVector& operator=(WorkspaceVector&& other) noexcept {
+      if (this != &other) {
+        if (workspace_) {
+          workspace_->release(index_);
+        }
+        workspace_ = other.workspace_;
+        index_ = other.index_;
+        other.workspace_ = nullptr;
+      }
+      return *this;
+    }
+    
+    StackVector<N>& operator*() { return workspace_->workspace_[index_]; }
+    const StackVector<N>& operator*() const { return workspace_->workspace_[index_]; }
+    
+    StackVector<N>* operator->() { return &workspace_->workspace_[index_]; }
+    const StackVector<N>* operator->() const { return &workspace_->workspace_[index_]; }
+  };
+  
+  std::optional<WorkspaceVector> acquire() {
+    for (std::size_t i = 0; i < PoolSize; ++i) {
+      if (!in_use_[i]) {
+        in_use_[i] = true;
+        return WorkspaceVector(this, i);
+      }
+    }
+    return std::nullopt;  // No available workspace
+  }
+  
 private:
-    void release(std::size_t index) {
-        if (index < PoolSize) {
-            in_use_[index] = false;
-        }
+  void release(std::size_t index) {
+    if (index < PoolSize) {
+      in_use_[index] = false;
     }
-    
-    friend class WorkspaceVector;
+  }
+  
+  friend class WorkspaceVector;
 };
 
 //=============================================================================
@@ -220,65 +220,65 @@ private:
 // Stack allocation benchmarks
 template<std::size_t N>
 static void BM_StackVector_Clone(benchmark::State& state) {
-    StackVector<N> prototype;
-    
-    for (auto _ : state) {
-        auto vec = rvf::clone(prototype);
-        benchmark::DoNotOptimize(vec);
-    }
-    
-    state.SetItemsProcessed(state.iterations());
-    state.SetLabel(std::to_string(N) + " elements (stack)");
+  StackVector<N> prototype;
+  
+  for (auto _ : state) {
+    auto vec = rvf::clone(prototype);
+    benchmark::DoNotOptimize(vec);
+  }
+  
+  state.SetItemsProcessed(state.iterations());
+  state.SetLabel(std::to_string(N) + " elements (stack)");
 }
 
 // Heap allocation benchmarks
 static void BM_HeapVector_Clone(benchmark::State& state) {
-    const std::size_t N = state.range(0);
-    HeapVector prototype(N);
-    
-    for (auto _ : state) {
-        auto vec = rvf::clone(prototype);
-        benchmark::DoNotOptimize(vec);
-    }
-    
-    state.SetItemsProcessed(state.iterations());
-    state.SetLabel(std::to_string(N) + " elements (heap)");
+  const std::size_t N = state.range(0);
+  HeapVector prototype(N);
+  
+  for (auto _ : state) {
+    auto vec = rvf::clone(prototype);
+    benchmark::DoNotOptimize(vec);
+  }
+  
+  state.SetItemsProcessed(state.iterations());
+  state.SetLabel(std::to_string(N) + " elements (heap)");
 }
 
 // Arena allocation benchmarks
 static void BM_HeapVector_Arena(benchmark::State& state) {
-    const std::size_t N = state.range(0);
-    HeapVector prototype(N);
-    
-    thread_local memory_arena<HeapVector> arena;
-    
-    for (auto _ : state) {
-        auto vec = arena.allocate(prototype);
-        benchmark::DoNotOptimize(vec);
-    }
-    
-    state.SetItemsProcessed(state.iterations());
-    state.SetLabel(std::to_string(N) + " elements (arena)");
+  const std::size_t N = state.range(0);
+  HeapVector prototype(N);
+  
+  thread_local memory_arena<HeapVector> arena;
+  
+  for (auto _ : state) {
+    auto vec = arena.allocate(prototype);
+    benchmark::DoNotOptimize(vec);
+  }
+  
+  state.SetItemsProcessed(state.iterations());
+  state.SetLabel(std::to_string(N) + " elements (arena)");
 }
 
 // Preallocated stack workspace benchmarks
 template<std::size_t N>
 static void BM_StackVector_Workspace(benchmark::State& state) {
-    thread_local StackVectorWorkspace<N> workspace;
-    
-    for (auto _ : state) {
-        auto vec = workspace.acquire();
-        if (vec) {
-            benchmark::DoNotOptimize(*vec);
-        } else {
-            // Fallback to regular allocation if workspace is full
-            auto fallback = rvf::clone(StackVector<N>{});
-            benchmark::DoNotOptimize(fallback);
-        }
+  thread_local StackVectorWorkspace<N> workspace;
+  
+  for (auto _ : state) {
+    auto vec = workspace.acquire();
+    if (vec) {
+      benchmark::DoNotOptimize(*vec);
+    } else {
+      // Fallback to regular allocation if workspace is full
+      auto fallback = rvf::clone(StackVector<N>{});
+      benchmark::DoNotOptimize(fallback);
     }
-    
-    state.SetItemsProcessed(state.iterations());
-    state.SetLabel(std::to_string(N) + " elements (workspace)");
+  }
+  
+  state.SetItemsProcessed(state.iterations());
+  state.SetLabel(std::to_string(N) + " elements (workspace)");
 }
 
 //=============================================================================
@@ -287,106 +287,106 @@ static void BM_StackVector_Workspace(benchmark::State& state) {
 
 template<std::size_t N>
 static void BM_StackVector_AlgorithmPattern(benchmark::State& state) {
-    StackVector<N> prototype;
-    
-    for (auto _ : state) {
-        for (int iter = 0; iter < 10; ++iter) {
-            auto temp1 = rvf::clone(prototype);
-            auto temp2 = rvf::clone(prototype);
-            auto temp3 = rvf::clone(prototype);
-            
-            // Simulate work
-            temp1[0] = iter;
-            temp2[0] = iter * 2;
-            temp3[0] = iter * 3;
-            
-            benchmark::DoNotOptimize(temp1);
-            benchmark::DoNotOptimize(temp2);
-            benchmark::DoNotOptimize(temp3);
-        }
+  StackVector<N> prototype;
+  
+  for (auto _ : state) {
+    for (int iter = 0; iter < 10; ++iter) {
+      auto temp1 = rvf::clone(prototype);
+      auto temp2 = rvf::clone(prototype);
+      auto temp3 = rvf::clone(prototype);
+      
+      // Simulate work
+      temp1[0] = iter;
+      temp2[0] = iter * 2;
+      temp3[0] = iter * 3;
+      
+      benchmark::DoNotOptimize(temp1);
+      benchmark::DoNotOptimize(temp2);
+      benchmark::DoNotOptimize(temp3);
     }
-    
-    state.SetItemsProcessed(state.iterations() * 10 * 3);
-    state.SetLabel(std::to_string(N) + " elements (stack)");
+  }
+  
+  state.SetItemsProcessed(state.iterations() * 10 * 3);
+  state.SetLabel(std::to_string(N) + " elements (stack)");
 }
 
 static void BM_HeapVector_AlgorithmPattern(benchmark::State& state) {
-    const std::size_t N = state.range(0);
-    HeapVector prototype(N);
-    
-    for (auto _ : state) {
-        for (int iter = 0; iter < 10; ++iter) {
-            auto temp1 = rvf::clone(prototype);
-            auto temp2 = rvf::clone(prototype);
-            auto temp3 = rvf::clone(prototype);
-            
-            // Simulate work
-            temp1[0] = iter;
-            temp2[0] = iter * 2;
-            temp3[0] = iter * 3;
-            
-            benchmark::DoNotOptimize(temp1);
-            benchmark::DoNotOptimize(temp2);
-            benchmark::DoNotOptimize(temp3);
-        }
+  const std::size_t N = state.range(0);
+  HeapVector prototype(N);
+  
+  for (auto _ : state) {
+    for (int iter = 0; iter < 10; ++iter) {
+      auto temp1 = rvf::clone(prototype);
+      auto temp2 = rvf::clone(prototype);
+      auto temp3 = rvf::clone(prototype);
+      
+      // Simulate work
+      temp1[0] = iter;
+      temp2[0] = iter * 2;
+      temp3[0] = iter * 3;
+      
+      benchmark::DoNotOptimize(temp1);
+      benchmark::DoNotOptimize(temp2);
+      benchmark::DoNotOptimize(temp3);
     }
-    
-    state.SetItemsProcessed(state.iterations() * 10 * 3);
-    state.SetLabel(std::to_string(N) + " elements (heap)");
+  }
+  
+  state.SetItemsProcessed(state.iterations() * 10 * 3);
+  state.SetLabel(std::to_string(N) + " elements (heap)");
 }
 
 static void BM_HeapVector_Arena_AlgorithmPattern(benchmark::State& state) {
-    const std::size_t N = state.range(0);
-    HeapVector prototype(N);
-    
-    thread_local memory_arena<HeapVector> arena;
-    
-    for (auto _ : state) {
-        for (int iter = 0; iter < 10; ++iter) {
-            auto temp1 = arena.allocate(prototype);
-            auto temp2 = arena.allocate(prototype);
-            auto temp3 = arena.allocate(prototype);
-            
-            // Simulate work
-            (*temp1)[0] = iter;
-            (*temp2)[0] = iter * 2;
-            (*temp3)[0] = iter * 3;
-            
-            benchmark::DoNotOptimize(temp1);
-            benchmark::DoNotOptimize(temp2);
-            benchmark::DoNotOptimize(temp3);
-        }
+  const std::size_t N = state.range(0);
+  HeapVector prototype(N);
+  
+  thread_local memory_arena<HeapVector> arena;
+  
+  for (auto _ : state) {
+    for (int iter = 0; iter < 10; ++iter) {
+      auto temp1 = arena.allocate(prototype);
+      auto temp2 = arena.allocate(prototype);
+      auto temp3 = arena.allocate(prototype);
+      
+      // Simulate work
+      (*temp1)[0] = iter;
+      (*temp2)[0] = iter * 2;
+      (*temp3)[0] = iter * 3;
+      
+      benchmark::DoNotOptimize(temp1);
+      benchmark::DoNotOptimize(temp2);
+      benchmark::DoNotOptimize(temp3);
     }
-    
-    state.SetItemsProcessed(state.iterations() * 10 * 3);
-    state.SetLabel(std::to_string(N) + " elements (arena)");
+  }
+  
+  state.SetItemsProcessed(state.iterations() * 10 * 3);
+  state.SetLabel(std::to_string(N) + " elements (arena)");
 }
 
 template<std::size_t N>
 static void BM_StackVector_Workspace_AlgorithmPattern(benchmark::State& state) {
-    thread_local StackVectorWorkspace<N> workspace;
-    
-    for (auto _ : state) {
-        for (int iter = 0; iter < 10; ++iter) {
-            auto temp1 = workspace.acquire();
-            auto temp2 = workspace.acquire();
-            auto temp3 = workspace.acquire();
-            
-            if (temp1 && temp2 && temp3) {
-                // Simulate work
-                (**temp1)[0] = iter;
-                (**temp2)[0] = iter * 2;
-                (**temp3)[0] = iter * 3;
-                
-                benchmark::DoNotOptimize(*temp1);
-                benchmark::DoNotOptimize(*temp2);
-                benchmark::DoNotOptimize(*temp3);
-            }
-        }
+  thread_local StackVectorWorkspace<N> workspace;
+  
+  for (auto _ : state) {
+    for (int iter = 0; iter < 10; ++iter) {
+      auto temp1 = workspace.acquire();
+      auto temp2 = workspace.acquire();
+      auto temp3 = workspace.acquire();
+      
+      if (temp1 && temp2 && temp3) {
+        // Simulate work
+        (**temp1)[0] = iter;
+        (**temp2)[0] = iter * 2;
+        (**temp3)[0] = iter * 3;
+        
+        benchmark::DoNotOptimize(*temp1);
+        benchmark::DoNotOptimize(*temp2);
+        benchmark::DoNotOptimize(*temp3);
+      }
     }
-    
-    state.SetItemsProcessed(state.iterations() * 10 * 3);
-    state.SetLabel(std::to_string(N) + " elements (workspace)");
+  }
+  
+  state.SetItemsProcessed(state.iterations() * 10 * 3);
+  state.SetLabel(std::to_string(N) + " elements (workspace)");
 }
 
 //=============================================================================

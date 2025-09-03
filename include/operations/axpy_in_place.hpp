@@ -10,7 +10,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "../real_vector.hpp"
+#include "real_vector.hpp"
 
 namespace rvf {
 

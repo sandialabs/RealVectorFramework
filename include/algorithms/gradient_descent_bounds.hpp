@@ -10,9 +10,9 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "../real_vector.hpp"
-#include "../operations/binary_in_place.hpp"
-#include "../operations/unary_in_place.hpp"
+#include "real_vector.hpp"
+#include "operations/binary_in_place.hpp"
+#include "operations/unary_in_place.hpp"
 #include <cmath>
 #include <algorithm>
 
@@ -22,7 +22,7 @@ namespace rvf {
 template<typename F, typename Vec>
 concept objective_function_c = requires(const F& f, const Vec& x, Vec& grad) {
   { f.value(x) } -> std::convertible_to<vector_value_t<Vec>>;
-  { f.gradient(x, grad) } -> std::same_as<void>; // computes gradient into grad
+  { f.gradient(grad, x) } -> std::same_as<void>; // computes gradient into grad
 };
 
 // Bound constraints representation
@@ -129,7 +129,7 @@ void gradient_descent_bounds(
   for(vector_size_t<Vec> iter = 0; iter < maxIter; ++iter) {
     // Compute objective and gradient at current point
     auto f_x = obj.value(x);
-    obj.gradient(x, grad);
+    obj.gradient(grad, x);
     
     // Check convergence
     auto grad_dot_grad = inner_product(grad, grad);

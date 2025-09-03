@@ -21,7 +21,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #include <tincup/tincup.hpp>
 
-#include "../real_vector.hpp"
+#include "real_vector.hpp"
 
 // -----------------------------------------------------------------------------
 // Trait specializations in namespace tincup
@@ -121,4 +121,3 @@ constexpr auto tag_invoke(clone_ftor, const std::vector<T, Alloc>& x)
 //    tincup::cpo_impl specializations instead of the generic ranges path.
 //  - This is for illustration; keep the generic ranges-based tag_invoke
 //    implementations as the default behavior.
-
