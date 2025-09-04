@@ -12,7 +12,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #include "memory_arena.hpp"
 #include "arena_observers.hpp"
-#include "clone.hpp"
+#include "operations/core/clone.hpp"
 #include <tabulate/table.hpp>
 #include <sstream>
 #include <memory>

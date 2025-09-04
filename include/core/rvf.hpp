@@ -13,7 +13,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 // Real Vector Framework - umbrella header
 // Include this to access concepts, operations (CPOs), algorithms, and objectives.
 
-#include "real_vector.hpp"    // Core concepts and basic CPOs
+#include "core/real_vector.hpp"    // Core concepts and basic CPOs
 #include "operations.hpp"     // All vector operations
 #include "algorithms.hpp"     // All algorithms
 #include "objectives.hpp"     // All objective functions

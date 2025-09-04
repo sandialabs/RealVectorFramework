@@ -12,7 +12,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <memory>
 #include <vector>
 
-#include "operations/clone.hpp"
+#include "operations/core/clone.hpp"
 
 // Provide a specialization of clone for std::vector<double> in this TU that
 // returns a std::unique_ptr<std::vector<double>>. This is more specialized than

@@ -10,8 +10,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "real_vector.hpp"
-#include "operations/axpy_in_place.hpp"
+#include "core/real_vector.hpp"
+#include "operations/advanced/axpy_in_place.hpp"
 #include "objectives/objective.hpp"
 #include <cmath>
 #include <algorithm>

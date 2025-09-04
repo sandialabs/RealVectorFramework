@@ -11,6 +11,11 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #pragma once
 
 // Include all algorithms
-#include "algorithms/conjugate_gradient.hpp"
-#include "algorithms/sherman_morrison.hpp"
-#include "algorithms/truncated_cg.hpp"
+
+// Linear algebra algorithms
+#include "algorithms/linear_algebra/conjugate_gradient.hpp"
+#include "algorithms/linear_algebra/sherman_morrison.hpp"
+
+// Optimization algorithms
+#include "algorithms/optimization/trust_region/truncated_cg.hpp"
+#include "algorithms/optimization/line_search/gradient_descent_bounds.hpp"

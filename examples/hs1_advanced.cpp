@@ -13,8 +13,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <limits>
 #include <cmath>
 #include <iomanip>
-#include "rvf.hpp"
-#include "algorithms/gradient_descent_bounds.hpp"
+#include "core/rvf.hpp"
+#include "algorithms/optimization/line_search/gradient_descent_bounds.hpp"
 
 // HS1 Problem with iteration tracking
 class HS1Problem {

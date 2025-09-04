@@ -12,8 +12,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <memory>
 #include <vector>
 
-#include "operations/clone.hpp"
-#include "operations/deref_if_needed.hpp"
+#include "operations/core/clone.hpp"
+#include "operations/core/deref_if_needed.hpp"
 
 // Provide a specialization that returns weak_ptr to demonstrate that this
 // is intentionally not supported by RVF's deref_if_needed pattern.

@@ -12,8 +12,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <vector>
 #include <limits>
 #include <cmath>
-#include "rvf.hpp"
-#include "algorithms/gradient_descent_bounds.hpp"
+#include "core/rvf.hpp"
+#include "algorithms/optimization/line_search/gradient_descent_bounds.hpp"
 
 // Hock-Schittkowski Problem #1: min 100*(x2 - x1^2)^2 + (1 - x1)^2
 // Subject to: x2 >= -1.5

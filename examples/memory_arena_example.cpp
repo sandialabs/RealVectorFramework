@@ -3,9 +3,9 @@
  * @brief Example usage of the RVF memory arena system
  */
 
-#include <rvf.hpp>
-#include <operations/memory_arena.hpp>
-#include <operations/arena_observers.hpp>
+#include <core/rvf.hpp>
+#include <operations/memory/memory_arena.hpp>
+#include <operations/memory/arena_observers.hpp>
 #include <vector>
 #include <iostream>
 #include <chrono>

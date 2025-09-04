@@ -10,9 +10,9 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "real_vector.hpp"
-#include "operations/binary_in_place.hpp"
-#include "operations/unary_in_place.hpp"
+#include "core/real_vector.hpp"
+#include "operations/advanced/binary_in_place.hpp"
+#include "operations/advanced/unary_in_place.hpp"
 #include <cmath>
 #include <algorithm>
 

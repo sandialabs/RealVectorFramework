@@ -58,7 +58,7 @@ RVF provides a complete set of vector operations through **Customization Point O
 ### 🔄 **Advanced Operations**  
 | CPO | Description | Purpose |
 |-----|-------------|---------|
-| `self_map_c<F, Vec>` | Function maps vector to itself | Concept for operators like Hessians |
+| `self_map_c<F, Vec>` | Function maps vector to same size space | Concept for operators like Hessians |
 | `unary_in_place(v, f)` | Apply unary function element-wise | Custom transformations |
 | `binary_in_place(z, x, y, f)` | Apply binary function element-wise | Element-wise operations |
 | `variadic_in_place(v, f, args...)` | Variadic element-wise operations | Complex transformations |

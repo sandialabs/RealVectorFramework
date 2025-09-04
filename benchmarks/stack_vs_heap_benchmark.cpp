@@ -3,8 +3,8 @@
  * @brief Benchmark comparing stack allocation (std::array) vs heap allocation vs arena
  */
 
-#include <rvf.hpp>
-#include <operations/memory_arena.hpp>
+#include <core/rvf.hpp>
+#include <operations/memory/memory_arena.hpp>
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <array>

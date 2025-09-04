@@ -10,8 +10,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #pragma once
 
-#include "real_vector.hpp"
-#include "algorithms/sherman_morrison.hpp"
+#include "core/real_vector.hpp"
+#include "algorithms/linear_algebra/sherman_morrison.hpp"
 #include <cmath>
 #include <algorithm>
 

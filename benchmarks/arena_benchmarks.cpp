@@ -3,9 +3,9 @@
  * @brief Google Benchmark tests for RVF memory arena performance
  */
 
-#include <rvf.hpp>
-#include <operations/memory_arena.hpp>
-#include <operations/arena_observers.hpp>
+#include <core/rvf.hpp>
+#include <operations/memory/memory_arena.hpp>
+#include <operations/memory/arena_observers.hpp>
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <memory>

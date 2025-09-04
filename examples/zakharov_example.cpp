@@ -16,8 +16,8 @@ Example: Using Truncated CG to minimize the Zakharov objective function
 #include <iomanip>
 #include <tabulate/table.hpp>
 
-#include "rvf.hpp"
-#include "operations/std_cpo_impl.hpp"  // Enable std::vector support
+#include "core/rvf.hpp"
+#include "core/type_support/std_cpo_impl.hpp"  // Enable std::vector support
 
 using Vector = std::vector<double>;
 

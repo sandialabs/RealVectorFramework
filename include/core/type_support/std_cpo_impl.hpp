@@ -21,7 +21,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #include <tincup/tincup.hpp>
 
-#include "real_vector.hpp"
+#include "core/real_vector.hpp"
 
 // -----------------------------------------------------------------------------
 // Trait specializations in namespace tincup

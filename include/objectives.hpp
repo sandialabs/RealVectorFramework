@@ -11,4 +11,9 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #pragma once
 
 // Include all objective functions
-#include "objectives/zakharov.hpp"
+
+// Core objective interface
+#include "objectives/objective.hpp"
+
+// Test problems
+#include "objectives/test_problems/zakharov.hpp"

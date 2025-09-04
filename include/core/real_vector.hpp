@@ -19,12 +19,12 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 // - inner_product_return_t<V>, dimension_return_t<V>, clone_return_t<V>: convenience aliases
 //
 // Include the CPO declarations used by the concept definitions below.
-#include "operations/add_in_place.hpp"
-#include "operations/clone.hpp"
-#include "operations/inner_product.hpp"
-#include "operations/dimension.hpp"
-#include "operations/scale_in_place.hpp"
-#include "operations/deref_if_needed.hpp"
+#include "operations/core/add_in_place.hpp"
+#include "operations/core/clone.hpp"
+#include "operations/core/inner_product.hpp"
+#include "operations/core/dimension.hpp"
+#include "operations/core/scale_in_place.hpp"
+#include "operations/core/deref_if_needed.hpp"
 
 #ifdef CUSTOM_REAL_SCALAR
 #include "real_scalar.hpp"

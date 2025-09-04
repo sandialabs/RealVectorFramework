@@ -12,12 +12,12 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <vector>
 #include <numeric>
 
-#include "rvf.hpp"
+#include "core/rvf.hpp"
 
 // Include the illustrative trait + shim implementations for std::vector.
 // This routes RVF CPO calls on std::vector through tincup::cpo_impl
 // specializations defined in this header, instead of the generic ranges path.
-#include "operations/std_cpo_impl.hpp"
+#include "core/type_support/std_cpo_impl.hpp"
 
 int main() {
   std::vector<double> x = {1.0, 2.0, 3.0};

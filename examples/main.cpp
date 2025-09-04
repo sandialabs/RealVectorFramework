@@ -11,7 +11,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <iostream>
 #include <vector>
 #include <numeric>
-#include "rvf.hpp"
+#include "core/rvf.hpp"
 
 // The generic axpy algorithm (y = alpha*x + y)
 template<typename V, typename S>

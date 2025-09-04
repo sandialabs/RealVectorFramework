@@ -29,7 +29,7 @@ std::string format_double(double value, int precision) {
 
 // Include RVF first to get the proper declarations
 #define TINCUP_STATIC_ASSERTS_DISABLE
-#include <rvf.hpp>
+#include <core/rvf.hpp>
 
 namespace rvf {
 
