@@ -18,7 +18,7 @@ void conjugate_gradients(
   r.axpy_in_place(-1, Ap);
 
   Real rr = r.inner_product(r);
-  Real norm0 = std::sqrt(rr);
+  Real norm0 = rvf::sqrt(rr);
 
   for(int iter = 0; iter < max_iter; ++iter) {
     applyA(Ap, p);
@@ -29,7 +29,7 @@ void conjugate_gradients(
     r.axpy_in_place(-alpha, Ap);
 
     Real rr_new = r.inner_product(r);
-    if(std::sqrt(rr_new) < tol*norm0) break;
+    if(rvf::sqrt(rr_new) < tol*norm0) break;
 
     Real beta = rr_new / rr;
     p.scale_in_place(beta);

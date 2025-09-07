@@ -35,35 +35,26 @@ namespace rvf {
 inline constexpr struct axpy_in_place_ftor final : tincup::cpo_base<axpy_in_place_ftor> {
   TINCUP_CPO_TAG("axpy_in_place")
   inline static constexpr bool is_variadic = false;
-    // Typed operator() overload - positive case only (generic)
-  // Negative cases handled by tagged fallback in cpo_base
   template<typename S, typename V>
-    requires tincup::invocable_c<axpy_in_place_ftor, V&, S, const V&>
+  requires tincup::invocable_c<axpy_in_place_ftor, V&, S, const V&>
   constexpr auto operator()(V& y, S alpha, const V& x) const
-    noexcept(tincup::nothrow_invocable_c<axpy_in_place_ftor, V&, S, const V&>) 
-    -> tincup::invocable_t<axpy_in_place_ftor, V&, S, const V&> {
+  noexcept(tincup::nothrow_invocable_c<axpy_in_place_ftor, V&, S, const V&>) 
+  -> tincup::invocable_t<axpy_in_place_ftor, V&, S, const V&> {
     return tincup::tag_invoke_cpo(*this, y, alpha, x);
   }
 } axpy_in_place;
 
-// Note: operator() methods are provided by cpo_base
-
-// CPO-specific concepts and type aliases for convenient usage
 template<typename S, typename V>
 concept axpy_in_place_invocable_c = tincup::invocable_c<axpy_in_place_ftor, V&, S, const V&>;
 
 template<typename S, typename V>
 concept axpy_in_place_nothrow_invocable_c = tincup::nothrow_invocable_c<axpy_in_place_ftor, V&, S, const V&>;
 
-
 template<typename S, typename V>
 using axpy_in_place_return_t = tincup::invocable_t<axpy_in_place_ftor, V&, S, const V&>;
 
 template<typename S, typename V>
 using axpy_in_place_traits = tincup::cpo_traits<axpy_in_place_ftor, V&, S, const V&>;
-
-// Usage: tincup::is_invocable_v<axpy_in_place_ftor, V&, S, const V&>
-
 
 /**
  * @brief Default tag_invoke overload for axpy_in_place
@@ -77,11 +68,10 @@ using axpy_in_place_traits = tincup::cpo_traits<axpy_in_place_ftor, V&, S, const
  * @return void
  */
 template<typename S, typename V>
-constexpr auto tag_invoke(axpy_in_place_ftor, V& y, S alpha, const V& x) -> void {
-    // Standard AXPY implementation using existing CPOs
-    auto x_clone = clone(x); auto& alphax = deref_if_needed(x_clone);
-    scale_in_place(alphax, alpha);
-    add_in_place(y, alphax);
+constexpr auto tag_invoke( axpy_in_place_ftor, V& y, S alpha, const V& x ) -> void {
+  auto x_clone = clone(x); auto& alphax = deref_if_needed(x_clone);
+  scale_in_place(alphax, alpha);
+  add_in_place(y, alphax);
 }
 
 } // namespace rvf

@@ -133,7 +133,7 @@ void gradient_descent_bounds(
     
     // Check convergence
     auto grad_dot_grad = inner_product(grad, grad);
-    auto grad_norm = std::sqrt(grad_dot_grad);
+    auto grad_norm = rvf::sqrt(grad_dot_grad);
     if (grad_norm < gtol) {
       break;
     }

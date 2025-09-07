@@ -75,44 +75,36 @@ struct cpo_impl<rvf::clone_ftor, std::vector<T, Alloc>> {
 // -----------------------------------------------------------------------------
 namespace rvf {
 
-template<typename T, typename Alloc, typename... Args>
-constexpr auto tag_invoke(add_in_place_ftor, std::vector<T, Alloc>& y, Args&&... args)
-  noexcept(noexcept(tincup::cpo_impl<add_in_place_ftor, std::vector<T, Alloc>>
-            ::call(y, std::forward<Args>(args)...)))
-  -> decltype(tincup::cpo_impl<add_in_place_ftor, std::vector<T, Alloc>>
-            ::call(y, std::forward<Args>(args)...))
-{ return tincup::cpo_impl<add_in_place_ftor, std::vector<T, Alloc>>
-            ::call(y, std::forward<Args>(args)...); }
-
-template<typename T, typename Alloc, typename... Args>
-constexpr auto tag_invoke(scale_in_place_ftor, std::vector<T, Alloc>& y, Args&&... args)
-  noexcept(noexcept(tincup::cpo_impl<scale_in_place_ftor, std::vector<T, Alloc>>
-            ::call(y, std::forward<Args>(args)...)))
-  -> decltype(tincup::cpo_impl<scale_in_place_ftor, std::vector<T, Alloc>>
-            ::call(y, std::forward<Args>(args)...))
-{ return tincup::cpo_impl<scale_in_place_ftor, std::vector<T, Alloc>>
-            ::call(y, std::forward<Args>(args)...); }
-
-template<typename T, typename Alloc, typename... Args>
-constexpr auto tag_invoke(inner_product_ftor, const std::vector<T, Alloc>& x, Args&&... args)
-  noexcept(noexcept(tincup::cpo_impl<inner_product_ftor, std::vector<T, Alloc>>
-            ::call(x, std::forward<Args>(args)...)))
-  -> decltype(tincup::cpo_impl<inner_product_ftor, std::vector<T, Alloc>>
-            ::call(x, std::forward<Args>(args)...))
-{ return tincup::cpo_impl<inner_product_ftor, std::vector<T, Alloc>>
-            ::call(x, std::forward<Args>(args)...); }
+template<typename T, typename Alloc>
+constexpr auto tag_invoke( add_in_place_ftor, 
+		           std::vector<T, Alloc>& y, 
+			   const std::vector<T,Alloc>& x ) {
+  return tincup::cpo_impl<add_in_place_ftor, std::vector<T, Alloc>>::call(y, x); 
+}
+            
+template<typename T, typename Alloc>
+constexpr auto tag_invoke( scale_in_place_ftor, 
+		           std::vector<T, Alloc>& y, 
+			   T alpha ) {
+  return tincup::cpo_impl<scale_in_place_ftor, std::vector<T, Alloc>>::call(y, alpha);
+}
 
 template<typename T, typename Alloc>
-constexpr auto tag_invoke(dimension_ftor, const std::vector<T, Alloc>& x)
-  noexcept(noexcept(tincup::cpo_impl<dimension_ftor, std::vector<T, Alloc>>::call(x)))
-  -> decltype(tincup::cpo_impl<dimension_ftor, std::vector<T, Alloc>>::call(x))
-{ return tincup::cpo_impl<dimension_ftor, std::vector<T, Alloc>>::call(x); }
+constexpr auto tag_invoke( inner_product_ftor, 
+	                   const std::vector<T, Alloc>& x, 
+			   const std::vector<T,Alloc>& y ) {
+  return tincup::cpo_impl<inner_product_ftor, std::vector<T, Alloc>>::call(x,y); 
+}
+            
+template<typename T, typename Alloc>
+constexpr auto tag_invoke(dimension_ftor, const std::vector<T, Alloc>& x) {
+ return tincup::cpo_impl<dimension_ftor, std::vector<T, Alloc>>::call(x); 
+}
 
 template<typename T, typename Alloc>
-constexpr auto tag_invoke(clone_ftor, const std::vector<T, Alloc>& x)
-  noexcept(noexcept(tincup::cpo_impl<clone_ftor, std::vector<T, Alloc>>::call(x)))
-  -> decltype(tincup::cpo_impl<clone_ftor, std::vector<T, Alloc>>::call(x))
-{ return tincup::cpo_impl<clone_ftor, std::vector<T, Alloc>>::call(x); }
+constexpr auto tag_invoke(clone_ftor, const std::vector<T, Alloc>& x ) {
+  return tincup::cpo_impl<clone_ftor, std::vector<T, Alloc>>::call(x); 
+}
 
 } // namespace rvf
 

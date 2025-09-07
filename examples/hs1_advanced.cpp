@@ -79,7 +79,7 @@ void gradient_descent_bounds_verbose(
   obj.gradient(grad, x);
   
   auto grad_dot_grad = rvf::inner_product(grad, grad);
-  auto grad_norm = std::sqrt(grad_dot_grad);
+  auto grad_norm = rvf::sqrt(grad_dot_grad);
   
   // Call iteration callback
   callback(iter, f_x, grad_norm, x);
@@ -148,7 +148,7 @@ int main() {
     
     Vec grad = {0.0, 0.0};
     problem.gradient(grad, x);
-    double grad_norm = std::sqrt(grad[0]*grad[0] + grad[1]*grad[1]);
+    double grad_norm = rvf::sqrt(grad[0]*grad[0] + grad[1]*grad[1]);
     
     std::cout << "Final: f = " << problem.value(x) 
          << ", ||∇f|| = " << grad_norm << "\n";

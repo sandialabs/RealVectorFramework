@@ -39,7 +39,7 @@ void conjugate_gradient( const Matrix& A,
                          vector_value_t<Vec> absTol = 0,
                          vector_size_t<Vec> maxIter = 100 ) {
 
-  auto tol = std::max(relTol * std::sqrt(inner_product(b, b)), absTol);
+  auto tol = std::max(relTol * rvf::sqrt(inner_product(b, b)), absTol);
   auto b_cl = clone(b); auto& r = deref_if_needed(b_cl);
 
   A(r, x);
@@ -47,7 +47,7 @@ void conjugate_gradient( const Matrix& A,
   add_in_place(r, b);
 
   auto rho0 = inner_product(r, r);
-  if(std::sqrt(rho0) < tol) return;
+  if(rvf::sqrt(rho0) < tol) return;
 
   auto r_cl = clone(r); auto& p  = deref_if_needed(r_cl); 
   auto x_cl = clone(x); auto& Ap = deref_if_needed(x_cl); 
@@ -59,7 +59,7 @@ void conjugate_gradient( const Matrix& A,
     axpy_in_place(x,  alpha,  p);
     axpy_in_place(r, -alpha, Ap);
     auto rho = inner_product(r, r);
-    if(std::sqrt(rho) < tol) break;
+    if(rvf::sqrt(rho) < tol) break;
     auto beta = rho / rho0;
     scale_in_place(p, beta);
     add_in_place(p, r);

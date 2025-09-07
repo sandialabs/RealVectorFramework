@@ -26,6 +26,6 @@ add_executable(memory_arena_example memory_arena_example.cpp)
 
 target_link_libraries(memory_arena_example PRIVATE RealVectorFramework::RealVectorFramework)
 
-add_executable(zakharov_example zakharov_example.cpp)
+add_executable(cpo_traits_example cpo_traits_example.cpp)
 
-target_link_libraries(zakharov_example PRIVATE RealVectorFramework::RealVectorFramework tabulate::tabulate)
+target_link_libraries(cpo_traits_example PRIVATE RealVectorFramework::RealVectorFramework)

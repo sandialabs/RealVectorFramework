@@ -81,7 +81,7 @@ int main() {
   // Compute final gradient to check optimality
   Vec grad = {0.0, 0.0};
   problem.gradient(grad, x);
-  auto grad_norm = std::sqrt(grad[0]*grad[0] + grad[1]*grad[1]);
+  auto grad_norm = rvf::sqrt(grad[0]*grad[0] + grad[1]*grad[1]);
   std::cout << "Final gradient norm: ||∇f(x*)|| = " << grad_norm << std::endl;
   
   // Check how close we are to known optimal solution [1.0, 1.0]
