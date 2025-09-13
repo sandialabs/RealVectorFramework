@@ -32,7 +32,9 @@ axpy_in_place(y, 1.5, x);          // y += 1.5 * x
 double dot = inner_product(x, y);   // Compute x · y
 ```
 
-- **Documentation**: See `docs/CPO_INTEGRATION_GUIDE.md` for detailed guidance on ADL `tag_invoke` vs `tincup::cpo_impl` specializations
+- **Documentation**:
+  - 📚 **[Complete API Reference](docs/api/)** - Comprehensive documentation for all RVF components
+  - 🔧 **[CPO Integration Guide](docs/CPO_INTEGRATION_GUIDE.md)** - Detailed guidance on ADL `tag_invoke` vs `tincup::cpo_impl` specializations
 
 ---
 
