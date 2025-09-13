@@ -13,6 +13,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include "core/real_vector.hpp"
 #include "operations/advanced/binary_in_place.hpp"
 #include "operations/advanced/fill.hpp"
+#include "operations/advanced/assign.hpp"
 #include "operations/advanced/layer_norm.hpp"
 #include "operations/advanced/matvec.hpp"
 #include "operations/advanced/relu.hpp"
@@ -25,6 +26,8 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <ranges>
 #include <cmath>
 #include <type_traits>
+#include "core/cmath/exp.hpp"
+#include "core/type_support/cmath/std_exp.hpp"
 
 // tag_invoke overloads for any type that satisfies std::ranges::range and is copy constructible
 // Define these in namespace rvf so ADL finds them via the CPO argument.
@@ -70,6 +73,18 @@ void tag_invoke(scale_in_place_ftor, R& y, std::ranges::range_value_t<R> alpha) 
 template<std::ranges::range R>
 void tag_invoke(fill_ftor, R& y, std::ranges::range_value_t<R> alpha) {
   std::ranges::for_each(y, [alpha](auto& ye){ ye = alpha; });
+}
+
+// assign (element-wise copy over common prefix)
+template<std::ranges::range R>
+void tag_invoke(assign_ftor, R& y, const R& x) {
+  auto iy = std::ranges::begin(y);
+  auto ey = std::ranges::end(y);
+  auto ix = std::ranges::begin(x);
+  auto ex = std::ranges::end(x);
+  for (; iy != ey && ix != ex; ++iy, ++ix) {
+    *iy = *ix;
+  }
 }
 
 // unary_in_place

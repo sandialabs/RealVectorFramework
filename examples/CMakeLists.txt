@@ -25,3 +25,4 @@ add_executable(cpo_traits_example cpo_traits_example.cpp)
 target_link_libraries(cpo_traits_example PRIVATE RealVectorFramework::RealVectorFramework)
 
 add_subdirectory(transformer)
+add_subdirectory(generic_transformer)
