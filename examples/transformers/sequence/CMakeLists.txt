@@ -1,0 +1,2 @@
+add_executable(sequence_transformer_demo sequence_transformer_demo.cpp)
+target_link_libraries(sequence_transformer_demo PRIVATE RealVectorFramework::RealVectorFramework)

@@ -1,3 +1,0 @@
-add_executable(transformer transformer_demo.cpp)
-target_link_libraries(transformer PRIVATE RealVectorFramework::RealVectorFramework)
-
