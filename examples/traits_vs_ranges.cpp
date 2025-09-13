@@ -29,7 +29,8 @@ int main() {
   std::cout << "y: "; for (const auto& v : y) std::cout << v << ' '; std::cout << '\n';
 
   // Use the in-place AXPY CPO (implemented using other CPOs)
-  rvf::axpy_in_place(y, alpha, x);
+  const auto& x_const = x;  // Ensure const reference
+  rvf::axpy_in_place(y, alpha, x_const);
 
   std::cout << "After axpy_in_place (traits path):\n";
   std::cout << "y: "; for (const auto& v : y) std::cout << v << ' '; std::cout << '\n';

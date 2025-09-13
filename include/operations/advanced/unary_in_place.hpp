@@ -12,36 +12,20 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <tincup/tincup.hpp>
 
 namespace rvf {
-
-// NOTE: To make @cpo, @cpo_example, and @tag_invoke_impl recognized by Doxygen,
-// add these aliases to your Doxyfile:
-//   ALIASES += cpo="Customization Point Object"
-//   ALIASES += cpo_example="Example usage of CPO"
-//   ALIASES += tag_invoke_impl="Default tag_invoke overload implementation"
-/**
- * @brief Apply a unary function elementwise (in-place)
- * @cpo
- * Applies the given callable object to each element of the target vector,
- * modifying the vector in place. The callable must be able to take an
- * argument of inner_product_return_t<V> and return a value of the same type.
- *
- * @cpo_example
- * @code
- * unary_in_place(vec, [](auto x) { return x * x; });  // Square each element
- * @endcode
- */
-
+	
 inline constexpr struct unary_in_place_ftor final : tincup::cpo_base<unary_in_place_ftor> {
   TINCUP_CPO_TAG("unary_in_place")
   inline static constexpr bool is_variadic = false;
+  // Re-expose base operator() so failures route to diagnostics
+  using tincup::cpo_base<unary_in_place_ftor>::operator();
     // Typed operator() overload - positive case only (generic)
   // Negative cases handled by tagged fallback in cpo_base
   template<typename F, typename V>
     requires tincup::invocable_c<unary_in_place_ftor, V&, F>
-  constexpr auto operator()(V& target, F func) const
+  constexpr auto operator()(V& x, F&& func) const
     noexcept(tincup::nothrow_invocable_c<unary_in_place_ftor, V&, F>) 
     -> tincup::invocable_t<unary_in_place_ftor, V&, F> {
-    return tincup::tag_invoke_cpo(*this, target, func);
+    return tag_invoke(*this, x, std::forward<F>(func));
   }
 } unary_in_place;
 
@@ -64,7 +48,65 @@ using unary_in_place_traits = tincup::cpo_traits<unary_in_place_ftor, V&, F>;
 // Usage: tincup::is_invocable_v<unary_in_place_ftor, V&, F>
 
 
-// No unconstrained default tag_invoke. See std_ranges_support.hpp or provide
-// a user-defined overload via ADL for your types.
-
 } // namespace rvf
+  
+namespace tincup {
+  template<typename F, typename V>
+  struct cpo_arg_traits<rvf::unary_in_place_ftor, V&, F> {
+    static constexpr bool available = true;
+    // Fixed (non-pack) argument count
+    static constexpr std::size_t fixed_arity = 2;
+
+    // Helpers to build repeated masks for parameter packs
+    static constexpr arity_type repeat_mask(std::size_t offset, std::size_t count) {
+      arity_type m = arity_type{0};
+      for (std::size_t i = 0; i < count; ++i) m |= (arity_type{1} << (offset + i));
+      return m;
+    }
+
+    // Values mask
+    static constexpr arity_type values_mask = []{
+      arity_type m = arity_type{0};
+      // Fixed positions
+      // Pack positions
+      return m;
+    }();
+
+    // Pointers mask
+    static constexpr arity_type pointers_mask = []{
+      arity_type m = arity_type{0};
+      return m;
+    }();
+
+    // Lvalue refs mask
+    static constexpr arity_type lvalue_refs_mask = []{
+      arity_type m = arity_type{0};
+m |= (arity_type{1} << 0);      return m;
+    }();
+
+    // Rvalue refs mask (non-forwarding)
+    static constexpr arity_type rvalue_refs_mask = []{
+      arity_type m = arity_type{0};
+m |= (arity_type{1} << 1);      return m;
+    }();
+
+    // Forwarding refs mask
+    static constexpr arity_type forwarding_refs_mask = []{
+      arity_type m = arity_type{0};
+m |= (arity_type{1} << 1);      return m;
+    }();
+
+    // Lvalue const refs mask
+    static constexpr arity_type lvalue_const_refs_mask = []{
+      arity_type m = arity_type{0};
+      return m;
+    }();
+
+    // Const-qualified mask (applies to values, refs, or pointers where declared const)
+    static constexpr arity_type const_qualified_mask = []{
+      arity_type m = arity_type{0};
+      return m;
+    }();
+  };
+}
+

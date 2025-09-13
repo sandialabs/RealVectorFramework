@@ -20,7 +20,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include <functional>
 
 #include <tincup/tincup.hpp>
-
+#include "operations/advanced/fill.hpp"
 #include "core/real_vector.hpp"
 
 // -----------------------------------------------------------------------------
@@ -52,6 +52,17 @@ struct cpo_impl<rvf::inner_product_ftor, std::vector<T, Alloc>> {
   }
 };
 
+// axpy_in_place for std::vector<T, Alloc>
+template<typename T, typename Alloc>
+struct cpo_impl<rvf::axpy_in_place_ftor, std::vector<T, Alloc>> {
+  static void call(std::vector<T, Alloc>& y, T alpha, const std::vector<T, Alloc>& x) {
+    std::transform(x.begin(), x.end(), y.begin(), y.begin(),
+                   [alpha](const T& x_val, const T& y_val) {
+                     return alpha * x_val + y_val;
+                   });
+  }
+};
+
 // dimension for std::vector<T, Alloc>
 template<typename T, typename Alloc>
 struct cpo_impl<rvf::dimension_ftor, std::vector<T, Alloc>> {
@@ -69,6 +80,19 @@ struct cpo_impl<rvf::clone_ftor, std::vector<T, Alloc>> {
 };
 
 } // namespace tincup
+
+
+// fill for std::vector<T, Alloc>
+namespace tincup {
+template<typename T, typename Alloc>
+struct cpo_impl<rvf::fill_ftor, std::vector<T, Alloc>> {
+  static void call(std::vector<T, Alloc>& v, const T& value) {
+    std::fill(v.begin(), v.end(), value);
+  }
+};
+
+} // namespace tincup
+
 
 // -----------------------------------------------------------------------------
 // ADL-visible shims in namespace rvf that forward to the trait impls
@@ -106,7 +130,25 @@ constexpr auto tag_invoke(clone_ftor, const std::vector<T, Alloc>& x ) {
   return tincup::cpo_impl<clone_ftor, std::vector<T, Alloc>>::call(x); 
 }
 
+template<typename T, typename Alloc>
+constexpr auto tag_invoke(axpy_in_place_ftor, 
+                         std::vector<T, Alloc>& y, 
+                         T alpha,
+                         const std::vector<T, Alloc>& x) {
+  return tincup::cpo_impl<axpy_in_place_ftor, std::vector<T, Alloc>>::call(y, alpha, x);
+}
+
 } // namespace rvf
+
+namespace rvf {
+
+template<typename T, typename Alloc>
+constexpr auto tag_invoke(fill_ftor, std::vector<T, Alloc>& v, const T& value) {
+  return tincup::cpo_impl<fill_ftor, std::vector<T, Alloc>>::call(v, value);
+}
+
+} // namespace rvf
+
 
 // Usage:
 //  - Include this header in a TU to route std::vector operations through

@@ -8,15 +8,23 @@ Government retains certain rights in this software.
 Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 */
 
-#pragma once
+#pragma once 
 
-// Header for cmath tag_invoke overloads for float, double, and long double
-#include "std_abs.hpp"
-#include "std_fma.hpp"
-#include "std_fmax.hpp"
-#include "std_fmin.hpp"
-#include "std_fmod.hpp"
-#include "std_pow.hpp"
-#include "std_exp.hpp"
-#include "std_remainder.hpp"
-#include "std_sqrt.hpp"
+#include <cmath>
+#include "core/cmath/exp.hpp"
+
+namespace rvf {
+
+inline float tag_invoke( exp_ftor, float x ) {
+  return std::exp(x);
+}
+
+inline double tag_invoke( exp_ftor, double x ) {
+  return std::exp(x);
+}
+
+inline long double tag_invoke( exp_ftor, long double x ) {
+  return std::exp(x);
+}
+
+} // namespace rvf

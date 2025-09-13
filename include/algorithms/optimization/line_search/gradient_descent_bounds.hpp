@@ -32,8 +32,8 @@ struct bound_constraints {
   
   // Project x onto [lower, upper] bounds
   void project(Vec& x) const {
-  binary_in_place(x, lower, [](auto xi, auto li) { return std::max(xi, li); });
-  binary_in_place(x, upper, [](auto xi, auto ui) { return std::min(xi, ui); });
+  binary_in_place(x, [](auto xi, auto li) { return std::max(xi, li); }, lower);
+  binary_in_place(x, [](auto xi, auto ui) { return std::min(xi, ui); }, upper);
   }
   
   // Check if all bounds are satisfied
@@ -76,9 +76,9 @@ vector_value_t<Vec> backtracking_linesearch(
   // Projected gradient step: x_trial_local = P(x - alpha * grad)
   auto x_cl = clone(x); auto& x_trial_local = deref_if_needed(x_cl);
 
-  binary_in_place(x_trial_local, grad, [alpha](auto xi, auto gi) { 
+  binary_in_place(x_trial_local, [alpha](auto xi, auto gi) { 
     return xi - alpha * gi; 
-  });
+  }, grad);
   bounds.project(x_trial_local);
   
   // Evaluate objective at trial point

@@ -12,6 +12,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 
 #include "core/real_vector.hpp"
 #include "operations/advanced/axpy_in_place.hpp"
+#include "operations/advanced/l2norm.hpp"
 #include <cmath>
 #include <algorithm> // For std::max
 
@@ -30,7 +31,7 @@ using vector_size_t = dimension_return_t<Vec>;
  * 
  * @param A Linear operator (expected to be symmetric positive definite)
  */
-template <typename Matrix, real_vector_c Vec>
+template<typename Matrix, real_vector_c Vec>
 requires self_map_c<Matrix, Vec>
 void conjugate_gradient( const Matrix& A,
                          const Vec& b,
@@ -39,7 +40,7 @@ void conjugate_gradient( const Matrix& A,
                          vector_value_t<Vec> absTol = 0,
                          vector_size_t<Vec> maxIter = 100 ) {
 
-  auto tol = std::max(relTol * rvf::sqrt(inner_product(b, b)), absTol);
+  auto tol = std::max(relTol * rvf::l2norm(b), absTol);
   auto b_cl = clone(b); auto& r = deref_if_needed(b_cl);
 
   A(r, x);

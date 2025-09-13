@@ -16,6 +16,7 @@ Questions? Contact Greg von Winckel (gvonwin@sandia.gov)
 #include "fmax.hpp"
 #include "fmin.hpp"
 #include "fmod.hpp"
+#include "exp.hpp"
 #include "pow.hpp"
 #include "remainder.hpp"
 #include "sqrt.hpp"

@@ -39,7 +39,7 @@ concept real_scalar_c = std::totally_ordered<S>         // C++20 <=> ordering
     {abs(a)    } -> std::same_as<S>;
     {fmax(a, b)} -> std::same_as<S>;
     {fmin(a, b)} -> std::same_as<S>;
-};
+} || std::floating_point<S>;
 
 template<typename S>
 concept small_real_scalar_c = (sizeof(S) <= 3 * sizeof(void*)) && real_scalar_c<S>;
