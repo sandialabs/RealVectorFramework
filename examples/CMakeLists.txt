@@ -24,4 +24,10 @@ target_link_libraries(memory_arena_example PRIVATE RealVectorFramework::RealVect
 add_executable(cpo_traits_example cpo_traits_example.cpp)
 target_link_libraries(cpo_traits_example PRIVATE RealVectorFramework::RealVectorFramework)
 
+add_executable(hs1_lbfgs hs1_lbfgs.cpp)
+target_link_libraries(hs1_lbfgs PRIVATE RealVectorFramework::RealVectorFramework)
+
+#add_executable(cpo_const_error cpo_debug/cpo_const_error.cpp)
+#target_link_libraries(cpo_const_error PRIVATE RealVectorFramework::RealVectorFramework)
+
 add_subdirectory(transformers)
