@@ -32,8 +32,8 @@ struct bound_constraints {
   
   // Project x onto [lower, upper] bounds
   void project(Vec& x) const {
-  binary_in_place(x, [](auto xi, auto li) { return std::max(xi, li); }, lower);
-  binary_in_place(x, [](auto xi, auto ui) { return std::min(xi, ui); }, upper);
+  binary_in_place(x, [](auto xi, auto li) { return rvf::fmax(xi, li); }, lower);
+  binary_in_place(x, [](auto xi, auto ui) { return rvf::fmin(xi, ui); }, upper);
   }
   
   // Check if all bounds are satisfied
